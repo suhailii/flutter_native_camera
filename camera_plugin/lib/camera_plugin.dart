@@ -1,8 +1,15 @@
-
-import 'camera_plugin_platform_interface.dart';
+import 'package:flutter/services.dart';
 
 class CameraPlugin {
-  Future<String?> getPlatformVersion() {
-    return CameraPluginPlatform.instance.getPlatformVersion();
+  static const MethodChannel _channel = MethodChannel('camera_plugin');
+
+  static Future<String?> startCameraActivity() async {
+    try {
+      final String? imagePath =
+          await _channel.invokeMethod('startCameraActivity');
+      return imagePath;
+    } catch (e) {
+      throw 'Failed to open camera: $e';
+    }
   }
 }
